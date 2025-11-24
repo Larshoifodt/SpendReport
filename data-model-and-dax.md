@@ -58,15 +58,15 @@ VS.
 ---
 ## 4. Key DAX Elements
 
-### • Agreement classification  
-### • Contract consumption  
-### • Spend totals by organization  
-### • Amount banding  
-### • Exceptions and overrides  
-### • Field parameters for dynamic visuals  
-### • Deneb / SVG measures for tooltips  
+- Agreement classification  
+- Contract consumption  
+- Spend totals by organization  
+- Amount banding  
+- Exceptions and overrides  
+- Field parameters for dynamic visuals  
+- Deneb / SVG measures for tooltips  
 
-All main DAX elements are documented here:  
+Main DAX elements are documented here:  
 ➡ `/examples/Dax-Dictionary.md`
 
 ---
