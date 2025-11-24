@@ -1,4 +1,5 @@
 # Power Apps Integration and Override Flow
+<img width="1364" height="636" alt="image" src="https://github.com/user-attachments/assets/ee73aa72-ac18-4f9c-a2b2-d0c779e3bd40" />
 
 The Power App enables users to document justified exceptions when purchases fall outside framework agreements.
 
