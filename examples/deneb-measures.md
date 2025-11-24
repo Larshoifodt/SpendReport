@@ -1,8 +1,6 @@
 # Deneb / SVG Measures
 
-<img width="895" height="193" alt="image" src="https://github.com/user-attachments/assets/e8550203-12eb-46e0-b2d1-b3fc5c242fe8" />
-<img width="527" height="283" alt="image" src="https://github.com/user-attachments/assets/524c63d3-8e5f-408c-bd40-a7be6f108a96" />
-
+<img width="800" height="492" alt="image" src="https://github.com/user-attachments/assets/a0fa649f-e368-46bd-b34a-a60f3b0aa05a" />
 
 ## Transaction History Tooltip
 
