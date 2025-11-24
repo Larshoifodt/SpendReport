@@ -83,8 +83,8 @@ Main DAX elements are documented here:
 ## 6. Visual-Supporting DAX
 
 Special measures support:
-- Sankey (flow) diagrams  
-- Tooltip pages  
+- Sankey (flow) diagrams - free version downloaded from "Visiocharts" 
+- Tooltip pages 
 - Threshold detection (e.g. >125k legal threshold)  
 - Mini-bar-chart SVGs  
 
