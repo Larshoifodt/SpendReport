@@ -56,6 +56,7 @@ IF (
     "No match",
     LatestContract
 )
+```
 
 #### TotalAmountByOrganization
 
@@ -75,6 +76,7 @@ CALCULATE (
     SUM ( Invoices[Amount] ),
     ALLEXCEPT ( Invoices, Invoices[OrganizationNumber] )
 )
+```
 
 ##### AmountBandByOrganization
 
@@ -104,6 +106,7 @@ SWITCH (
     Invoices[TotalAmountByOrganization] >= 8000000, "F: > 8M",
     "Unknown"
 )
+```
 
 ######FlowDimensionSelector
 
@@ -123,6 +126,7 @@ FlowDimensionSelector =
     ( "Account", NAMEOF ( Invoices[AccountLabel] ), 1 ),
     ( "Business Unit", NAMEOF ( Invoices[BusinessUnitLabel] ), 2 )
 }
+```
 
 ####### Deneb SVG Tooltip Measure
 
@@ -226,4 +230,4 @@ RETURN
         & Bars
         & ThresholdLines
         & "</svg>"
-
+```
