@@ -70,26 +70,11 @@ Main DAX elements are documented here:
 ➡ `/examples/Dax-Dictionary.md`
 
 ---
-## 5. Relationship Principles
 
-- Fact → dimensions: single direction  
-- Many-to-many resolved with bridge tables  
-- No bidirectional filtering except where safe  
-- Calculated columns used only where necessary  
-- Measures preferred for aggregation logic
+## 5. Visuals used
 
----
-
-## 6. Visual-Supporting DAX
-
-Special measures support:
-- Sankey (flow) diagrams - free version downloaded from "Visiocharts" 
-- Tooltip pages 
-- Threshold detection (e.g. >125k legal threshold)  
-- Mini-bar-chart SVGs  
-
-See:  
-➡ `/examples/deneb-measures.md`
+- Sankey (flow) diagram - free version downloaded from "Visiocharts" 
+- Mini BarChart SVG Tooltip ( See:  ➡ `/examples/deneb-measures.md` for code)
 
 
 
