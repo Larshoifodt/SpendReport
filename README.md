@@ -98,7 +98,7 @@ Because of this, the matching logic is based on:
 - Contract validity period (`StartDate`–`EndDate`)  
 - A suffix-based contract key to differentiate multiple agreements for the same supplier  
 
-This may look “non-ideal” from a purist data modeling point of view, but in organizations without integrated procurement systems it is a **practical, effective workaround**.
+This may look “non-ideal” from a purist data modeling point of view, but in organizations without fully integrated contract-to-invoice systems it is a practical, effective workaround.
 
 ### 3.1 Suffix-Based Contract Key
 
