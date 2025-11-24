@@ -24,6 +24,62 @@ IF (
 )
 ```
 
+## Key Contract Suffix
+
+| Field | Value |
+|-------|-------|
+| **Name** | Key_Contract |
+| **Type** | Calculated column |
+| **Table** | Contracts |
+| **Purpose** | Creates a stable, traceable key for each contract, used to link invoices back to a specific agreement. |
+| **Logic** |  Combines supplier/organization identifier with a sequence ID to support chronological differentiation when several contracts exist for the same supplier. |
+| **Notes** | Used by `MatchedContractKey` in the invoice fact table to identify the most likely contract match. |
+
+**DAX:**
+```DAX
+Key_Contract =
+Contracts[OrganizationNumber] & "-" & Contracts[SequenceId]
+
+### `MatchedContractKey`
+
+```md
+## MatchedContractKey
+
+| Field | Value |
+|-------|-------|
+| **Name** | MatchedContractKey |
+| **Type** | Calculated column |
+| **Table** | Invoices |
+| **Purpose** | Stores the key of the most likely active contract for each invoice line, based on supplier and date range. |
+| **Logic** | Filters the Contracts table on organization number and invoice date within the contract validity period, then picks the latest valid contract and returns `Key_Contract`. |
+| **Notes** | Returns `"No match"` when no valid contract is found. Ambiguous cases (several contracts valid in the same period) are flagged separately. |
+
+**DAX:**
+```DAX
+MatchedContractKey =
+VAR MatchTable =
+    TOPN (
+        1,
+        FILTER (
+            Contracts,
+            Contracts[OrganizationNumber] = Invoices[OrganizationNumber]
+                && Contracts[StartDate] <= Invoices[InvoiceDate]
+                && Contracts[EndDate] >= Invoices[InvoiceDate]
+        ),
+        Contracts[EndDate],
+        DESC
+    )
+RETURN
+IF (
+    ISEMPTY ( MatchTable ),
+    "No match",
+    MAXX ( MatchTable, Contracts[Key_Contract] )
+)
+
+
+
+
+
 ## ContractReferenceNumber
 
 | Field | Value |
