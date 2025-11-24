@@ -46,7 +46,13 @@ If multiple contracts are valid for the same supplier in the same time period, t
 In practice this means:
 - One overspend icon only → there is a single contract and spend is above the agreed value, and the case should be reviewed.
 - Overspend icon + “multiple contracts” icon → the spend is above one contract’s value, but there are several active contracts for the supplier in that period, so the overspend may be legitimate.
-- This approach may look a bit old-fashioned compared to fully integrated systems, but in environments without a complete end-to-end procurement platform it is a pragmatic and reliable way to avoid over-reporting deviations while still highlighting the cases that truly need attention.
+
+This approach may look a bit old-fashioned compared to fully integrated systems, but in environments without a complete end-to-end procurement platform it is a pragmatic and reliable way to avoid over-reporting deviations while still highlighting the cases that truly need attention.
+
+This approach may look a bit old-fashioned compared to fully integrated systems, but in environments without a complete end-to-end procurement platform it is a pragmatic and reliable way to avoid over-reporting deviations while still highlighting the cases that truly need attention.
+
+<img width="311" height="84" alt="image" src="https://github.com/user-attachments/assets/757f7960-953d-44fa-bf61-98d36e1bd796" />
+<img width="312" height="93" alt="image" src="https://github.com/user-attachments/assets/b4070bb3-3b6b-4c76-9b85-000f38c24252" />
 
 ---
 ## 4. Key DAX Elements
