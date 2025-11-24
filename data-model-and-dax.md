@@ -1,4 +1,94 @@
-# Data Model and DAX – Overview
+# Data Model and DAX Logic
+
+This document explains the core analytical logic behind the SpendReport solution, including relationship design, contract matching, and important measures.  
+For detailed DAX examples, see `/examples/Dax-Dictionary.md`.
+
+## 1. Model Overview
+
+The model is built around a star-schema-inspired layout:
+
+- **Fact table:** `Invoices`
+- **Dimensions:** Contracts, Organization numbers, Accounts, Business Units, Projects
+- **Bridge tables:** used to resolve many-to-many relationships and support stable contract matching
+
+Data is sourced from SharePoint folders using Power Query, which also handles schema drift and data consistency.
+
+---
+
+## 2. Contract Matching Logic (ERP ↔ Contract Register)
+
+In many organizations, contract systems and ERP systems are not integrated.  
+Suppliers and accounting staff do not reference contract IDs when coding invoices.  
+Therefore, **OrganizationNumber** becomes the most reliable matching key.
+
+Matching uses:
+- Organization number  
+- Invoice date  
+- Contract date validity window  
+- Suffix-based keys for chronological differentiation  
+
+This appears “non-ideal” from a pure modeling standpoint, but is a **very effective workaround** for organizations without integrated procurement systems.
+
+Full logic explanation:  
+See `/examples/Dax-Dictionary.md#contractreferencenumber`.
+
+---
+## 3. Handling Multiple Contract Matches
+
+If multiple contracts are valid for the same supplier in the same time period, the model:
+
+1. Flags the invoice row as ambiguous  
+2. Avoids making an incorrect guess  
+3. Displays a visual indicator explaining why spend appears out-of-frame  
+
+This avoids over-reporting deviations.
+
+---
+## 4. Key DAX Elements
+
+### • Agreement classification  
+### • Contract consumption  
+### • Spend totals by organization  
+### • Amount banding  
+### • Exceptions and overrides  
+### • Field parameters for dynamic visuals  
+### • Deneb / SVG measures for tooltips  
+
+All main DAX elements are documented here:  
+➡ `/examples/Dax-Dictionary.md`
+
+---
+## 5. Relationship Principles
+
+- Fact → dimensions: single direction  
+- Many-to-many resolved with bridge tables  
+- No bidirectional filtering except where safe  
+- Calculated columns used only where necessary  
+- Measures preferred for aggregation logic
+
+---
+
+## 6. Visual-Supporting DAX
+
+Special measures support:
+- Sankey (flow) diagrams  
+- Tooltip pages  
+- Threshold detection (e.g. >125k legal threshold)  
+- Mini-bar-chart SVGs  
+
+See:  
+➡ `/examples/deneb-measures.md`
+
+
+
+
+
+
+
+
+
+
+
 
 ## Contract matching logic (Invoices ↔ Contracts)
 In many organizations, invoices and contract data are stored in completely separate systems, 
