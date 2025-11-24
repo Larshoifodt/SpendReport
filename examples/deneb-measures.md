@@ -1,6 +1,6 @@
 # Deneb / SVG Measures
 
-<img width="800" height="492" alt="image" src="https://github.com/user-attachments/assets/a0fa649f-e368-46bd-b34a-a60f3b0aa05a" />
+![gifspendgithub-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/0a447db7-d1e4-4c3a-b75b-d911d9897379)
 
 ## Transaction History Tooltip
 
