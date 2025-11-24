@@ -24,7 +24,7 @@ IF (
 )
 ```
 
-## Key Contract Suffix
+## Key Contract
 
 | Field | Value |
 |-------|-------|
@@ -43,9 +43,6 @@ Contracts[OrganizationNumber] & "-" & Contracts[SequenceId]
 
 ### `MatchedContractKey`
 
-```md
-## MatchedContractKey
-
 | Field | Value |
 |-------|-------|
 | **Name** | MatchedContractKey |
@@ -55,8 +52,9 @@ Contracts[OrganizationNumber] & "-" & Contracts[SequenceId]
 | **Logic** | Filters the Contracts table on organization number and invoice date within the contract validity period, then picks the latest valid contract and returns `Key_Contract`. |
 | **Notes** | Returns `"No match"` when no valid contract is found. Ambiguous cases (several contracts valid in the same period) are flagged separately. |
 
+
 **DAX:**
-```DAX
+```
 MatchedContractKey =
 VAR MatchTable =
     TOPN (
@@ -77,9 +75,35 @@ IF (
     MAXX ( MatchTable, Contracts[Key_Contract] )
 )
 
+```
 
+## HasMultipleContractMatches
 
+| Field | Value |
+|-------|-------|
+| **Name** | HasMultipleContractMatches |
+| **Type** | Calculated column / Measure (depending on implementation) |
+| **Table** | Invoices |
+| **Purpose** | Flags invoice lines where more than one contract is valid for the same supplier and period. |
+| **Logic** | Counts distinct contracts that match on organization number and date range; returns 1 if more than one is found, otherwise 0. |
+| **Notes** | Used to drive an extra warning icon in the report. When combined with an overspend indicator, it tells the user that the deviation may be explained by multiple parallel contracts. |
 
+**DAX:**
+```
+HasMultipleContractMatches =
+VAR MatchCount =
+    CALCULATE (
+        DISTINCTCOUNT ( Contracts[ContractId] ),
+        FILTER (
+            Contracts,
+            Contracts[OrganizationNumber] = Invoices[OrganizationNumber]
+                && Contracts[StartDate] <= Invoices[InvoiceDate]
+                && Contracts[EndDate] >= Invoices[InvoiceDate]
+        )
+    )
+RETURN
+IF ( MatchCount > 1, 1, 0 )
+```
 
 ## ContractReferenceNumber
 
