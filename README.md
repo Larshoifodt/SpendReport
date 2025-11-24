@@ -1,6 +1,48 @@
 # SpendReport
 This Power BI report provides a comprehensive overview of how the organization’s purchasing and invoicing activities align with existing framework agreements. The solution is based on monthly downloads of contract data and invoice summaries, offering a solid foundation for ensuring compliance with procurement regulations. 
+1. Overview
+2. Features
+3. Power Apps Integration
+4. Data Sources and Logic
 
+   
+5. Report Structure (Queries -> DAX -> Visuals)
+
+The report is built following a clear and structured development flow to ensure data accuracy, transparency, and maintainability:
+
+5.1 Queries
+All raw data transformations are performed in Power Query.
+The source files are stored in a dedicated Teams workspace, ensuring version control, secure access, and consistency across monthly updates.
+Typical steps include:
+
+- Standardizing column names
+- Cleaning and shaping contract and invoice data
+- Handling relationship preparation for many-to-many scenarios
+- Merging or appending datasets as needed
+
+5.2 Data Model & DAX
+After the data is transformed, it is loaded into a star-schema-like model with relationship adjustments to avoid ambiguity.
+A functional workaround is implemented to handle many-to-many relationships while keeping measures accurate and responsive.
+Key DAX elements include:
+
+- Measures for contract consumption
+- Controls for period validity
+- Logic for agreement compliance
+- Matching rules between contracts, accounts, and invoices
+
+5.3 Visuals
+The final layer presents insights through clear and interactive visualizations.
+The visuals are designed to support decision-making by focusing on:
+
+- Contract validity vs. actual purchasing
+- Spend versus contractual limits
+- Account and cost center usage
+- Exception and deviation identification
+
+This structure ensures that the report remains easy to maintain, scalable for future needs, and transparent for stakeholders.
+
+7. User Guide
+8. Results and Impact
 
 
 
