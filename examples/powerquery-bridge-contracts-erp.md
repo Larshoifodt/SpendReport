@@ -1,8 +1,9 @@
-# Building a bridge table from contract files stored in SharePoint 
+# Building a bridge table 
 
-// to link a contract register with an ERP/invoicing system
+### Example on how to link a contract data with an ERP/invoicing system in Power BI
 
 **M-code / Query Power BI**
+
 ´´´
 let
     // Get all files from the SharePoint site (replace with your own tenant and site)
@@ -84,3 +85,5 @@ let
 
 in
     CleanBridge
+
+´´´
