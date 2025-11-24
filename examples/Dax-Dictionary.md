@@ -39,6 +39,7 @@ IF (
 ```DAX
 Key_Contract =
 Contracts[OrganizationNumber] & "-" & Contracts[SequenceId]
+```
 
 ### `MatchedContractKey`
 
