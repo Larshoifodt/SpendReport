@@ -4,7 +4,6 @@
 The Power App enables users to document justified exceptions when purchases fall outside framework agreements.
 
 This workflow ensures that non-compliant spend is not over-reported, and that legitimate reasons are captured and reflected in the data model.
-![ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/908b7e80-c37b-4e90-bd61-69f4472420d0)
 
 ---
 
@@ -39,6 +38,8 @@ Dette kan fint spores tilbake i refresh-log i fabric - men er en fin ting å unn
 Below is the exact OnSelect logic from the submit button.
 It checks for an existing entry, updates it if present, or creates a new one if not.
 
+Datacard 9-10 is obviously arbetrary - and just reflects 
+
 **FX / Power APP**
 ```
 If(
@@ -50,30 +51,30 @@ If(
     );
     Patch(
         'YourOverridingList';
-        LookUp('Kollektiv hukommelse'; Organisasjonsnr = DataCardValue9.Text);
+        LookUp('YourOverridingList'; Organisasjonsnr = DataCardValue9.Text);
         {
-            Navn: DataCardValue10.Text;
-            Organisasjonsnr: DataCardValue9.Text;
-            Merknad: DataCardValue11.Text;
-            'Start dato': DataCardValue12.SelectedDate;
-            'Stopp dato': DataCardValue13.SelectedDate;
-            Innkjøper: { Value: DataCardValue14.Selected.Value };
-            'Registrert dato': Today();
-            Årsak: { Value: DataCardValue16.Selected.Value }
+            Name: DataCardValue10.Text;
+            Org.number: DataCardValue9.Text;
+            Message: DataCardValue11.Text;
+            'Start date': DataCardValue12.SelectedDate;
+            'Stopp date': DataCardValue13.SelectedDate;
+            Perch: { Value: DataCardValue14.Selected.Value };
+            'Registrated date': Today();
+            Couse: { Value: DataCardValue16.Selected.Value }
         }
     );
     Patch(
         'YourOverridingList';
         Defaults('YourOverridingList');
         {
-            Navn: DataCardValue10.Text;
-            Organisasjonsnr: DataCardValue9.Text;
-            Merknad: DataCardValue11.Text;
-            'Start dato': DataCardValue12.SelectedDate;
-            'Stopp dato': DataCardValue13.SelectedDate;
-            Innkjøper: { Value: DataCardValue14.Selected.Value };
-            'Registrert dato': Today();
-            Årsak: { Value: DataCardValue16.Selected.Value }
+            Name: DataCardValue10.Text;
+            Org.number: DataCardValue9.Text;
+            Message: DataCardValue11.Text;
+            'Start date': DataCardValue12.SelectedDate;
+            'Stopp date': DataCardValue13.SelectedDate;
+            Perch: { Value: DataCardValue14.Selected.Value };
+           'Registrated date': Today();
+            Couse: { Value: DataCardValue16.Selected.Value }
         }
     )
 )
@@ -87,7 +88,7 @@ To ensure clean data entry, the Power App also displays a notification popup whe
 
 This ensures that analysts and approvers always have a clear, singular override record per supplier.
 
-As shown below: "This org.number already exists" 
+As shown in norwegian below: "This org.number already exists, and can be overwritten" 
 ![ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/908b7e80-c37b-4e90-bd61-69f4472420d0)
 
 
