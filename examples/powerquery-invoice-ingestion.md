@@ -4,7 +4,7 @@
 This query operates on files stored in Teams/SharePoint and works seamlessly whether the data is populated automatically through APIs or uploaded manually. 
 For manual workflows, replacing the content within the same file (rather than creating new files) is recommended to avoid refresh inconsistencies and schema drift.
 
-// Importing data
+```
 let
     // Connect to the SharePoint site (replace with your own tenant and site)
     Source = SharePoint.Files(
@@ -248,3 +248,6 @@ let
 
 in
     WithAccountGroupLabel
+
+```
+
