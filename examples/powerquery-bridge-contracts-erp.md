@@ -1,4 +1,4 @@
-# Building a bridge table 
+# M-CODE: Building a bridge table 
 
 ### Example on how to link a contract data with an ERP/invoicing system in Power BI
 
