@@ -35,6 +35,24 @@ This appears “non-ideal” from a pure modeling standpoint, but is a **very ef
 Full logic explanation:  
 See `/examples/Dax-Dictionary.md#contractreferencenumber`.
 
+### 2.1 Suffix-Based Contract Key Logic
+
+Because several contracts for the same supplier may overlap in time, the model introduces an additional suffix-based matching key.
+This key allows the model to:
+
+- Uniquely identify each contract instance for a supplier
+- Distinguish contracts chronologically
+- Enable traceability back to which contract is most likely linked to a purchase
+- Support unambiguous matching in cases where date ranges overlap
+
+This suffix key is constructed in the Contracts dimension and later re-used in the Invoices fact table to determine which contract the invoice is most likely associated with.
+
+The full implementation (DAX) for both sides of the key:
+- Contract-side key generation
+- Invoice-side key lookup
+…is documented here:
+➡ /examples/Dax-Dictionary.md#contractreferencenumber
+
 ---
 ## 3. Handling Multiple Contract Matches
 
