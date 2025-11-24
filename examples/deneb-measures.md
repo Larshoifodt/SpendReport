@@ -14,8 +14,10 @@ Shows a small historical bar chart for the selected supplier/organization in a t
 - a dashed line at the threshold.
 
 Used to quickly see whether the current transaction is part of a larger pattern of high-value purchases.
+You might ask; what about the accumulative value of transactions? - This is covered in the actual PBI sheet, 
+as the tooltip is there for a quick glimpse on transaction trends only. 
 
-**Logic (Technical)**  
+**Logic**  
 - Filters the invoice fact table on the current organization and the last 3 years.  
 - Normalizes the Y-axis based on min/max amount.  
 - Calculates X/Y positions for each bar in a fixed 300x100 SVG grid.  
