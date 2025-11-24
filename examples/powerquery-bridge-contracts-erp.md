@@ -2,7 +2,7 @@
 
 // to link a contract register with an ERP/invoicing system
 
-**M**
+**M-code / Query Power BI**
 ´´´
 let
     // Get all files from the SharePoint site (replace with your own tenant and site)
