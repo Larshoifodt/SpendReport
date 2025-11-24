@@ -86,6 +86,8 @@ To ensure clean data entry, the Power App also displays a notification popup whe
 - or when mandatory fields are missing
 
 This ensures that analysts and approvers always have a clear, singular override record per supplier.
+
+As shown below: "This org.number already exists" 
 ![ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/908b7e80-c37b-4e90-bd61-69f4472420d0)
 
 
