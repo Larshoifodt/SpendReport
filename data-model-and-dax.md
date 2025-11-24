@@ -38,13 +38,15 @@ See `/examples/Dax-Dictionary.md#contractreferencenumber`.
 ---
 ## 3. Handling Multiple Contract Matches
 
-If multiple contracts are valid for the same supplier in the same time period, the model:
+If multiple contracts are valid for the same supplier in the same time period, the model does not simply treat this as a clear deviation. Instead, it:
+*Flags the invoice row with a separate “multiple contracts” indicator, in addition to any “overspend” warning
+*Avoids making a blind guess about which contract the invoice belongs to
+*Signals to the user that the apparent overspend may be explained by several parallel agreements
 
-1. Flags the invoice row as ambiguous  
-2. Avoids making an incorrect guess  
-3. Displays a visual indicator explaining why spend appears out-of-frame  
-
-This avoids over-reporting deviations.
+In practice this means:
+*One overspend icon only → there is a single contract and spend is above the agreed value, and the case should be reviewed.
+*Overspend icon + “multiple contracts” icon → the spend is above one contract’s value, but there are several active contracts for the supplier in that period, so the overspend may be legitimate.
+*This approach may look a bit old-fashioned compared to fully integrated systems, but in environments without a complete end-to-end procurement platform it is a pragmatic and reliable way to avoid over-reporting deviations while still highlighting the cases that truly need attention.
 
 ---
 ## 4. Key DAX Elements
