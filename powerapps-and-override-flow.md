@@ -3,6 +3,7 @@
 The Power App enables users to document justified exceptions when purchases fall outside framework agreements.
 
 This workflow ensures that non-compliant spend is not over-reported, and that legitimate reasons are captured and reflected in the data model.
+![ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/908b7e80-c37b-4e90-bd61-69f4472420d0)
 
 ---
 
