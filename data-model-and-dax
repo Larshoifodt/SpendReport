@@ -1,5 +1,11 @@
 # Data Model and DAX – Overview
 
+## Contract matching logic (Invoices ↔ Contracts)
+kort forklaring i tekst
+DAX for Key_Contract
+DAX for MatchedContractKey
+DAX for “HasMultipleContractMatches” / “AmbiguousMatchFlag”
+
 ## Data Model
 - Star-schema-inspired model with:
   - Fact table(s) for invoices / purchases
