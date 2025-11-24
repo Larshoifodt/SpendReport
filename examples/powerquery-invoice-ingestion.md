@@ -1,8 +1,12 @@
 # M-CODE: Loading and cleaning invoice export files from SharePoint
 
 #### Example of how to export invoice data to a PBI data model. 
-This query operates on files stored in Teams/SharePoint and works seamlessly whether the data is populated automatically through APIs or uploaded manually. 
-For manual workflows, replacing the content within the same file (rather than creating new files) is recommended to avoid refresh inconsistencies and schema drift.
+This query operates on files stored in Teams/SharePoint and works seamlessly whether the data is populated automatically through APIs or uploaded manually. For manual workflows, it is recommended to replace the content within the same file rather than uploading new files, as this minimizes schema drift and reduces the risk of refresh inconsistencies in Power BI.
+
+In this implementation, the primary matching key is the organization number, sourced both from the Contracts dataset and the ERP (invoice) dataset. In most procurement and finance setups, this represents the most stable and reliable identifier across systems. If your environment uses a different unique key, the logic can be adapted accordingly.
+
+For more information about how agreement matches are sequenced, traced, and categorized, see the DAX Dictionary section regarding suffix-based key generation.
+
 
 ```
 let
