@@ -1,6 +1,9 @@
-// Example: Building a bridge table from contract files stored in SharePoint 
+# Building a bridge table from contract files stored in SharePoint 
+
 // to link a contract register with an ERP/invoicing system
 
+**M**
+´´´
 let
     // Get all files from the SharePoint site (replace with your own tenant and site)
     Source = SharePoint.Files(
