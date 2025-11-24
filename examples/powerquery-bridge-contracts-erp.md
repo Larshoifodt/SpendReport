@@ -4,7 +4,7 @@
 
 **M-code / Query Power BI**
 
-
+```
 let
     // Get all files from the SharePoint site (replace with your own tenant and site)
     Source = SharePoint.Files(
@@ -86,4 +86,4 @@ let
 in
     CleanBridge
 
-
+```
