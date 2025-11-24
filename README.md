@@ -4,7 +4,25 @@ This Power BI report provides a comprehensive overview of how the organizationâ€
 2. Features
 3. Power Apps Integration
 4. Data Sources and Logic
+   
+# Bridge Table Between Contract Register and ERP
+In many organizations, contracts (framework agreements) are stored in one system, 
+while invoices and actual spend are handled in a separate ERP system. Without a 
+dedicated integration layer, it can be difficult to analyze contract coverage and 
+agreement compliance across both sources.
 
+This Power Query pattern builds a simple bridge table based on a common key 
+(e.g. organization number), by:
+
+1. Loading all contract files from a SharePoint folder
+2. Extracting the relevant column (OrganizationNumber) from each file
+3. Cleaning, de-duplicating and validating the values
+4. Using the resulting table as a bridge between:
+   - the contract register (e.g. contract system exports), and
+   - the ERP / invoicing data model
+
+See `docs/examples/powerquery-bridge-contracts-erp.m` for a generalized example 
+of how this bridge table is implemented in M.
    
 5. Report Structure (Queries -> DAX -> Visuals)
 
