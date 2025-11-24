@@ -88,13 +88,33 @@ To ensure clean data entry, the Power App also displays a notification popup whe
 
 This ensures that analysts and approvers always have a clear, singular override record per supplier.
 
-As shown in norwegian below: "This org.number already exists, and can be overwritten" 
+As shown in norwegian below: "PS! This org.number already exists, and can be overwritten" 
+
 ![ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/908b7e80-c37b-4e90-bd61-69f4472420d0)
 
 
+## 5. Access Requirements
 
+All report users who interact with the embedded Power App must:
+
+1. Have access to the Power Apps environment where the app is created
+2. Have at least read/write access to the SharePoint or Dataverse list storing override data
+3. Have access to the Power BI dataset (otherwise the embedded app will fail to load)
+
+Without aligned permissions, the Power App appears but does not save changes.
 Process Flow
+---
+## 6. Effect in the Report
+When an override exists:
 
+- The purchase changes from non-compliant → documented exception
+- KPIs adjust accordingly
+- Red/green classification updates
+- Multiple visuals (including Sankey, Uncovered Purchases, and Agreement Coverage) are updated
+
+This makes the override flow a key part of presenting a fair, contextual and organization-aware view of procurement compliance.
+
+---
 1. A purchase is identified as outside an agreement  
 2. User opens the embedded Power App  
 3. User provides justification:  
