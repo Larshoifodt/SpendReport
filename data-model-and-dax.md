@@ -5,10 +5,13 @@ For detailed DAX examples, see `/examples/Dax-Dictionary.md`.
 
 ## 1. Model Overview
 
-The model is built around a star-schema-inspired layout:
+The model is built around a star-schema layout:
+
+<img width="1131" height="726" alt="image" src="https://github.com/user-attachments/assets/50b9021f-6358-4eec-8b3b-163ebfd7784a" />
+
 
 - **Fact table:** `Invoices`
-- **Dimensions:** Contracts, Organization numbers, Accounts, Business Units, Projects
+- **Dimensions:** The model contains several supporting dimension tables, including the Contracts dimension, a Responsibility/Cost Center dimension constructed from Business Unit codes, an Override (exception) dimension maintained through Power Apps, a Descriptions dimension used to enrich uncovered purchases, and dual Date dimensions— one aligned with invoice posting dates and another aligned with contract validity periods.
 - **Bridge tables:** used to resolve many-to-many relationships and support stable contract matching
 
 Data is sourced from SharePoint folders using Power Query, which also handles schema drift and data consistency.
