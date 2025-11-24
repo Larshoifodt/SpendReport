@@ -53,6 +53,7 @@ This approach may look a bit old-fashioned compared to fully integrated systems,
 
 <img width="311" height="84" alt="image" src="https://github.com/user-attachments/assets/757f7960-953d-44fa-bf61-98d36e1bd796" />
 <img width="312" height="93" alt="image" src="https://github.com/user-attachments/assets/b4070bb3-3b6b-4c76-9b85-000f38c24252" />
+<img width="312" height="93" alt="Skjermbilde 2025-11-24 125126" src="https://github.com/user-attachments/assets/e8b5aa30-6b50-4f9f-a65d-f60acbf04ff8" />
 
 ---
 ## 4. Key DAX Elements
