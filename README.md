@@ -7,7 +7,7 @@ The Spend Report Project is a Power BI solution that connects contract data (fra
 - when contract values and periods are exceeded  
 - which exceptions are **legitimate** and documented, and which need follow-up  
 
-The solution is built for environments **without** a fully integrated procurement suite, using SharePoint/Teams, Power BI, DAX, Power Query and Power Apps to bridge the gap.
+The solution is built for environments without a fully integrated procurement suite — where organizations often rely on separate systems, such as an ERP for financial processing and a contract-management platform (KAV/CLM) for agreement lifecycle tracking. While these systems can be integrated, doing so typically requires high-priced enterprise modules and infrastructure that most universities and public-sector institutions do not have access to. By combining SharePoint/Teams, Power BI, Power Query, DAX, and Power Apps, this solution bridges that gap in a practical and affordable way.
 
 ---
 
@@ -48,7 +48,7 @@ Data is stored in Teams/SharePoint, which means it works both when:
 - data is pushed automatically via APIs, **or**  
 - files are dropped manually on a monthly basis  
 
-Key tasks in the queries:
+Key automatic tasks in the queries:
 
 - Load contract exports and invoice exports from SharePoint folders  
 - Standardize schema and naming  
