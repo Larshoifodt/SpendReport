@@ -1,5 +1,8 @@
-// Example: Loading and cleaning invoice export files from SharePoint
-// for use in a Power BI data model.
+# M-CODE: Loading and cleaning invoice export files from SharePoint
+
+#### Example of how to export invoice data to a PBI data model. 
+This query operates on files stored in Teams/SharePoint and works seamlessly whether the data is populated automatically through APIs or uploaded manually. 
+For manual workflows, replacing the content within the same file (rather than creating new files) is recommended to avoid refresh inconsistencies and schema drift.
 
 let
     // Connect to the SharePoint site (replace with your own tenant and site)
