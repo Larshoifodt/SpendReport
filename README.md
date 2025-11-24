@@ -255,5 +255,19 @@ A typical structure for this project:
    ├─ powerquery-bridge-contracts-erp.md
    └─ powerquery-invoice-ingestion.md
 
+---
+## 9. Scope, Assumptions and Limitations
 
+- Designed for organizations without full procurement–ERP integration
+- Uses OrganizationNumber as the primary cross-system key (can be adapted if another key is better)
+- Assumes contracts and invoices are available as exports to Teams/SharePoint
+- Requires aligned permissions for:
+    - Power BI dataset
+    - SharePoint/Teams lists
+    - Power Apps environment
 
+Despite these constraints, the solution offers:
+- Reliable contract coverage analysis
+- Practical compliance monitoring
+- A realistic view of deviations vs. accepted exceptions
+- A foundation that can later be extended with APIs or more tightly integrated systems
