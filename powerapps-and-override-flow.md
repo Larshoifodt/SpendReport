@@ -1,4 +1,4 @@
-# Power Apps Integration and Override Flow
+# Power Apps Integration and Override Logic
 <img width="1364" height="636" alt="image" src="https://github.com/user-attachments/assets/ee73aa72-ac18-4f9c-a2b2-d0c779e3bd40" />
 
 The Power App enables users to document justified exceptions when purchases fall outside framework agreements.
@@ -10,14 +10,87 @@ This workflow ensures that non-compliant spend is not over-reported, and that le
 
 ## 1. Purpose
 
-The override system allows purchasers, controllers, and end users to:
-- Document why a specific purchase is outside contract  
-- Add classification, category, and notes  
-- Flag legitimate exceptions so they appear compliant in the report  
+Users can register a justified exception (e.g., documented reason, classification, start/stop date).
+When the Power App writes this information to the override list (Kollektiv hukommelse), the report will, upon refresh:
+
+- Convert the transaction from red → green
+- Treat it as a documented exception
+- Ensure that agreement coverage metrics remain realistic and fair
+
+This avoids punishing legitimate purchases that fall outside contract scope for valid reasons.
 
 ---
+## 2. Preventing Duplicate Overrides (Key Integrity)
 
-## 2. Process Flow
+The matching key between the ERP dataset and the override list is (for most organizations) OrganizationNumber.
+
+Because this key is many-to-one (one supplier → one override entry), multiple overrides for the same organization number would:
+- break referential integrity
+- cause model relationship conflicts
+- and potentially crash visuals relying on unambiguous lookups
+
+To prevent this, the Power App includes logic that checks whether an entry already exists before writing.
+
+If an override already exists, a Power Apps popup warning appears, preventing accidental duplication. 
+Dette kan fint spores tilbake i refresh-log i fabric - men er en fin ting å unngå. 
+
+
+## 2.1 Popup Logic (Power Apps)
+Below is the exact OnSelect logic from the submit button.
+It checks for an existing entry, updates it if present, or creates a new one if not.
+
+**FX / Power APP**
+```
+If(
+    !IsBlank(
+        LookUp(
+            'YourOverridingList';
+            Organisasjonsnr = DataCardValue9.Text
+        )
+    );
+    Patch(
+        'YourOverridingList';
+        LookUp('Kollektiv hukommelse'; Organisasjonsnr = DataCardValue9.Text);
+        {
+            Navn: DataCardValue10.Text;
+            Organisasjonsnr: DataCardValue9.Text;
+            Merknad: DataCardValue11.Text;
+            'Start dato': DataCardValue12.SelectedDate;
+            'Stopp dato': DataCardValue13.SelectedDate;
+            Innkjøper: { Value: DataCardValue14.Selected.Value };
+            'Registrert dato': Today();
+            Årsak: { Value: DataCardValue16.Selected.Value }
+        }
+    );
+    Patch(
+        'YourOverridingList';
+        Defaults('YourOverridingList');
+        {
+            Navn: DataCardValue10.Text;
+            Organisasjonsnr: DataCardValue9.Text;
+            Merknad: DataCardValue11.Text;
+            'Start dato': DataCardValue12.SelectedDate;
+            'Stopp dato': DataCardValue13.SelectedDate;
+            Innkjøper: { Value: DataCardValue14.Selected.Value };
+            'Registrert dato': Today();
+            Årsak: { Value: DataCardValue16.Selected.Value }
+        }
+    )
+)
+```
+
+## 2.1 Embedded Popup
+To ensure clean data entry, the Power App also displays a notification popup when:
+- an override already exists
+- a user attempts to create a second entry for the same supplier
+- or when mandatory fields are missing
+
+This ensures that analysts and approvers always have a clear, singular override record per supplier.
+![ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/908b7e80-c37b-4e90-bd61-69f4472420d0)
+
+
+
+Process Flow
 
 1. A purchase is identified as outside an agreement  
 2. User opens the embedded Power App  
@@ -29,7 +102,6 @@ The override system allows purchasers, controllers, and end users to:
 5. Power BI refresh picks up overrides and updates logic:  
    - Red → Green if approved  
    - Contract matching logic remains intact  
-
 ---
 
 ## 3. How Overrides Affect the Report
