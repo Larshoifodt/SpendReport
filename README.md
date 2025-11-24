@@ -1,69 +1,259 @@
-# SpendReport
-This Power BI report provides a comprehensive overview of how the organization’s purchasing and invoicing activities align with existing framework agreements. The solution is based on monthly downloads of contract data and invoice summaries, offering a solid foundation for ensuring compliance with procurement regulations. 
-1. Overview
-2. Features
-3. Power Apps Integration
-4. Data Sources and Logic
+# SpendReport – Framework Agreement Compliance & Spend Analysis (Power BI)
 
-The data model includes DAX logic to match invoices and contracts based on supplier and date ranges, with explicit handling of cases where multiple contracts exist for the same supplier in the same period. See docs/data-model-and-dax.md for details.
+SpendReport is a Power BI solution that connects contract data (framework agreements) with ERP invoice data to show:
 
-   
-# Bridge Table Between Contract Register and ERP
-In many organizations, contracts (framework agreements) are stored in one system, 
-while invoices and actual spend are handled in a separate ERP system. Without a 
-dedicated integration layer, it can be difficult to analyze contract coverage and 
-agreement compliance across both sources.
+- how much of the organization’s spend is actually covered by agreements  
+- where purchases fall outside contractual scope  
+- when contract values and periods are exceeded  
+- which exceptions are **legitimate** and documented, and which need follow-up  
 
-This Power Query pattern builds a simple bridge table based on a common key 
-(e.g. organization number), by:
+The solution is built for environments **without** a fully integrated procurement suite, using SharePoint/Teams, Power BI, DAX, Power Query and Power Apps to bridge the gap.
 
-1. Loading all contract files from a SharePoint folder
-2. Extracting the relevant column (OrganizationNumber) from each file
-3. Cleaning, de-duplicating and validating the values
-4. Using the resulting table as a bridge between:
-   - the contract register (e.g. contract system exports), and
-   - the ERP / invoicing data model
+---
 
-See `docs/examples/powerquery-bridge-contracts-erp.m` for a generalized example 
-of how this bridge table is implemented in M.
-   
-5. Report Structure (Queries -> DAX -> Visuals)
+## 1. What the Report Delivers
 
-The report is built following a clear and structured development flow to ensure data accuracy, transparency, and maintainability:
+**Business perspective**
 
-5.1 Queries
-All raw data transformations are performed in Power Query.
-The source files are stored in a dedicated Teams workspace, ensuring version control, secure access, and consistency across monthly updates.
-Typical steps include:
+- Agreement coverage by spend and number of purchases  
+- Monitoring of upcoming contract expiries  
+- Identification of purchases outside agreements (red) vs. accepted exceptions (green)  
+- Visibility into contract consumption vs. contract value (potential overrun)  
+- Traceability of spend across accounts, cost centers, projects and business units  
 
-- Standardizing column names
-- Cleaning and shaping contract and invoice data
-- Handling relationship preparation for many-to-many scenarios
-- Merging or appending datasets as needed
+**Technical perspective**
 
-5.2 Data Model & DAX
-After the data is transformed, it is loaded into a star-schema-like model with relationship adjustments to avoid ambiguity.
-A functional workaround is implemented to handle many-to-many relationships while keeping measures accurate and responsive.
-Key DAX elements include:
+- Robust matching logic between ERP and contract exports using OrganizationNumber + date ranges  
+- Many-to-many relationship handling via bridge tables  
+- Suffix-based contract keys to track overlapping agreements over time  
+- Embedded Power App for documenting and overriding justified exceptions  
+- Custom SVG tooltips (Deneb) for compact transaction history visuals  
 
-- Measures for contract consumption
-- Controls for period validity
-- Logic for agreement compliance
-- Matching rules between contracts, accounts, and invoices
+For a deeper overview of pages and navigation, see:  
+`/docs/report-structure.md`
 
-5.3 Visuals
-The final layer presents insights through clear and interactive visualizations.
-The visuals are designed to support decision-making by focusing on:
+---
 
-- Contract validity vs. actual purchasing
-- Spend versus contractual limits
-- Account and cost center usage
-- Exception and deviation identification
+## 2. Architecture Overview
 
-This structure ensures that the report remains easy to maintain, scalable for future needs, and transparent for stakeholders.
+The solution follows a clear flow:
 
-7. User Guide
-8. Results and Impact
+**Teams / SharePoint → Power Query → Data Model → DAX → Visuals & Power Apps**
+
+### 2.1 Data Ingestion (Power Query / M)
+
+All raw transformations happen in Power Query.  
+Data is stored in Teams/SharePoint, which means it works both when:
+
+- data is pushed automatically via APIs, **or**  
+- files are dropped manually on a monthly basis  
+
+Key tasks in the queries:
+
+- Load contract exports and invoice exports from SharePoint folders  
+- Standardize schema and naming  
+- Handle schema drift and “messy” Excel exports  
+- Build a **bridge table** between contract register and ERP, typically on `OrganizationNumber`  
+
+Examples:
+
+- Bridge contracts ↔ ERP:  
+  `/examples/powerquery-bridge-contracts-erp.md`  
+- Invoice ingestion pattern:  
+  `/examples/powerquery-invoice-ingestion.md`
+
+---
+
+### 2.2 Data Model (Star-Schema Inspired)
+
+<img width="1131" height="726" alt="image" src="https://github.com/user-attachments/assets/50b9021f-6358-4eec-8b3b-163ebfd7784a" />
+
+- **Fact table:**  
+  `Invoices` (ERP / Unit4 export)
+
+- **Dimensions:**  
+  - `Contracts` – framework agreements (from Tendsign or equivalent)  
+  - Responsibility / Cost Center dimension – derived from Business Unit codes  
+  - Override list – documented exceptions maintained via Power Apps  
+  - Descriptions – to enrich uncovered purchases  
+  - Dual Date dimensions – one aligned to invoice posting date, one to contract validity period  
+
+- **Bridge tables:**  
+  Used to resolve many-to-many relationships and ensure stable contract matching between ERP and contract data.
+
+Full description:  
+`/docs/data-model-and-dax.md`
+
+---
+
+## 3. Contract Matching Logic
+
+In most real-world setups, **finance staff and suppliers do not use contract IDs on invoices**.  
+Instead, the only shared, stable key is usually **OrganizationNumber**.
+
+Because of this, the matching logic is based on:
+
+- OrganizationNumber  
+- Invoice date  
+- Contract validity period (`StartDate`–`EndDate`)  
+- A suffix-based contract key to differentiate multiple agreements for the same supplier  
+
+This may look “non-ideal” from a purist data modeling point of view, but in organizations without integrated procurement systems it is a **practical, effective workaround**.
+
+### 3.1 Suffix-Based Contract Key
+
+To track multiple agreements for the same supplier, the model uses a composite key:
+
+- Built in the `Contracts` dimension (e.g. `OrganizationNumber` + sequence ID)  
+- Re-used in `Invoices` to store the most likely contract match  
+- Enables traceability back to the exact agreement used for matching  
+
+Key DAX definitions:
+
+- `Key_Contract`  
+- `MatchedContractKey`  
+- `ContractReferenceNumber`  
+
+See:  
+`/examples/Dax-Dictionary.md#key-contract`  
+`/examples/Dax-Dictionary.md#matchedcontractkey`  
+`/examples/Dax-Dictionary.md#contractreferencenumber`
+
+---
+
+## 4. Handling Multiple Contracts & Overspend
+
+Sometimes, **several contracts** are valid for the same supplier in the same period.  
+The model purposely **does not guess** in these cases.
+
+Instead, it:
+
+- Flags the invoice with a **“multiple contracts”** indicator  
+- Keeps any **“overspend”** warning separate  
+- Signals that the apparent deviation may have a legitimate explanation (parallel agreements)
+
+In practice:
+
+- **Only overspend icon →**  
+  Single contract, spend above agreed value → should be reviewed.
+
+- **Overspend icon + multiple-contract icon →**  
+  Spend above one contract’s value, but several active contracts for that supplier in the same period → overspend may be legitimate.
+
+This avoids over-reporting deviations while still highlighting the cases that actually require attention.
+
+---
+
+## 5. Power Apps Integration – Override Logic
+
+<img width="1364" height="636" alt="image" src="https://github.com/user-attachments/assets/ee73aa72-ac18-4f9c-a2b2-d0c779e3bd40" />
+
+The report includes an embedded Power App that lets users **document justified exceptions** when a purchase is outside any framework agreement.
+
+### 5.1 What the App Does
+
+When a purchase is marked as “not covered”:
+
+1. The user opens the embedded Power App from the report.  
+2. They register:
+   - reason / category  
+   - notes  
+   - start and stop date  
+   - responsible purchaser  
+3. The app writes an entry to an override list (SharePoint / Teams list or Dataverse).  
+4. On the next refresh, Power BI:
+   - matches the override back to the supplier (via OrganizationNumber)  
+   - reclassifies the purchase from **red → green**  
+   - updates KPIs and visuals  
+
+This ensures that **legitimate, documented exceptions** do not show up as pure non-compliance.
+
+### 5.2 Preventing Duplicate Overrides
+
+The override list is keyed by `OrganizationNumber` (one supplier → one override record).
+
+To protect key integrity, the Power App:
+
+- checks if an override already exists for that supplier  
+- updates the existing record if found  
+- otherwise creates a new one  
+
+If a user tries to create a second entry for the same supplier, a popup warns them and prevents accidental duplication.
+
+Power Apps logic and screenshots:  
+`/docs/powerapps-override-logic.md`
+
+---
+
+## 6. Custom Visuals (Deneb & Flow)
+
+### 6.1 Deneb SVG Tooltip – Transaction History
+
+The report uses a Deneb/Vega visual to render an **inline SVG mini bar chart** in a tooltip:
+
+![gifspendgithub-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/0a447db7-d1e4-4c3a-b75b-d911d9897379)
+
+- Shows the last 3 years of transactions for the selected supplier  
+- Bars above a legal procurement threshold (e.g. 100k/125k) are highlighted  
+- A dashed reference line indicates the threshold  
+- Helps users see whether a transaction is part of a broader high-value pattern  
+
+DAX measure implementation:  
+`/examples/deneb-measures.md`
+
+### 6.2 Flow / Sankey Visual
+
+- Uses a free Sankey/flow visual (from “Visiocharts”)  
+- Traces each purchase across accounts, cost centers, projects and business units  
+- Helps explain *where* and *how* spend flows through the chart of accounts
+
+---
+
+## 7. Report Pages (Functional Overview)
+
+For day-to-day users, the key report pages are:
+
+- **Agreements**  
+  - Upcoming contract expiries  
+  - Spend per supplier / organization number  
+  - Contract value vs. actual spend  
+  - Gantt-style contract overview  
+
+- **Flow**  
+  - End-to-end spend flow  
+  - Transaction-level drill-through to Sankey  
+  - Multiple account levels and business units  
+
+- **Uncovered Purchases & Exceptions**  
+  - All purchases not covered by agreements  
+  - Exception handling via the Power App (red → green)  
+  - Documentation of legitimate deviations  
+
+- **Maintenance**  
+  - New business units without assigned purchasers  
+  - Data quality and governance support  
+
+Full structure:  
+`/docs/report-structure.md`
+
+---
+
+## 8. Repository Structure
+
+A typical structure for this project:
+
+```text
+.
+├─ README.md
+├─ /docs
+│  ├─ data-model-and-dax.md
+│  ├─ powerapps-override-logic.md
+│  └─ report-structure.md
+└─ /examples
+   ├─ Dax-Dictionary.md
+   ├─ deneb-measures.md
+   ├─ powerquery-bridge-contracts-erp.md
+   └─ powerquery-invoice-ingestion.md
 
 
 
