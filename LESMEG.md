@@ -177,3 +177,43 @@ DAX:
 - viser hvordan kostnader flyter gjennom kontostruktur
 - nyttig for å forstå hvor kjøp «lander» i regnskapet
 
+## 7. Rapportsider
+
+- Avtaler: utløp, dekningsgrad, avtaleverdi vs forbruk
+- Flyt: Sankey-visninger og kostnadsstier
+- Kjøp utenfor avtale: unntak og Power Apps-håndtering
+- Vedlikehold: nye enheter uten innkjøper m.m.
+
+Struktur:
+/docs/report-structure.md
+
+## 8. Repository-struktur
+
+```
+├─ README.md
+├─ README.no.md    ← denne filen
+├─ /docs
+│  ├─ data-model-and-dax.md
+│  ├─ powerapps-override-logic.md
+│  └─ report-structure.md
+└─ /examples
+   ├─ Dax-Dictionary.md
+   ├─ deneb-measures.md
+   ├─ powerquery-bridge-contracts-erp.md
+   └─ powerquery-invoice-ingestion.md
+```
+
+## 9. Avgrensning og forutsetninger
+- For organisasjoner uten helintegrert innkjøps–ERP-løsning
+- Organisasjonsnummer brukes som primær nøkkel
+- Krever SharePoint/Teams for filhåndtering
+- Krever harmoniserte rettigheter i:
+  - Power BI
+  - SharePoint/Teams (ikke nødvendig - men et praktisk sted å dele kilder)
+  - Power Apps (ikke nødvendig - kun for embedded form) 
+
+Løsningen gir tross dette:
+- pålitelig analyse av avtaleforbruk
+- praktisk avviksoppfølging
+- dokumenterbare unntak
+- et grunnlag som kan utvides med API-er og mer avanserte systemer
