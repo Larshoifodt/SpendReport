@@ -1,0 +1,23 @@
+# Data Model and DAX – Overview
+
+## Data Model
+- Star-schema-inspired model with:
+  - Fact table(s) for invoices / purchases
+  - Dimension tables for contracts, organization numbers, accounts, cost centers, business units, and projects
+- Relationship design includes:
+  - Handling of many-to-many relationships through bridge or helper tables
+  - Clear directionality to avoid ambiguous filter paths
+
+## Key Calculated Columns
+- Columns for:
+  - Contract validity flags (within period / outside period)
+  - Agreement coverage classification (covered / not covered / over limit)
+  - Mapping between purchases and contracts (e.g., based on organization number or other keys)
+
+## Key Measures
+- Contract consumption (used vs. contract value)
+- Agreement coverage percentage by spend
+- Number of purchases and amount outside agreement
+- Flags and counts for:
+  - Red (non-compliant) vs. green (overridden/accepted) purchases
+- Measures for supporting Sankey and Deneb visuals
