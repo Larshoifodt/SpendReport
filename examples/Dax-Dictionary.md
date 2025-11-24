@@ -24,7 +24,7 @@ IF (
 )
 ```
 
-### ContractReferenceNumber
+## ContractReferenceNumber
 
 | Field | Value |
 |-------|-------|
@@ -58,7 +58,7 @@ IF (
 )
 ```
 
-#### TotalAmountByOrganization
+## TotalAmountByOrganization
 
 | Field | Value |
 |-------|-------|
@@ -78,7 +78,7 @@ CALCULATE (
 )
 ```
 
-##### AmountBandByOrganization
+## AmountBandByOrganization
 
 | Field | Value |
 |-------|-------|
@@ -108,7 +108,7 @@ SWITCH (
 )
 ```
 
-######FlowDimensionSelector
+## FlowDimensionSelector
 
 | Field | Value |
 |-------|-------|
@@ -128,7 +128,7 @@ FlowDimensionSelector =
 }
 ```
 
-####### Deneb SVG Tooltip Measure
+## Deneb SVG Tooltip Measure
 
 | Field | Value |
 |-------|-------|
