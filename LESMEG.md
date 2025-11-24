@@ -131,3 +131,49 @@ mulig legitim overskridelse → flere avtaler aktive samtidig
 Dette hindrer overrapportering av avvik.
 
 --- 
+## 5. Power Apps – dokumentasjon av unntak
+
+<img width="1364" height="636" alt="image" src="https://github.com/user-attachments/assets/ee73aa72-ac18-4f9c-a2b2-d0c779e3bd40" />
+
+Den innebygde Power Appen lar brukere dokumentere reelle unntak når et kjøp faller utenfor rammeavtale.
+
+### 5.1 Hva appen gjør
+
+1. Bruker åpner appen fra rapporten
+2. Fyller inn:
+- årsak/kategori
+- merknad
+- start- og sluttdato
+- innkjøper
+3. Appen skriver til en SharePoint/Teams-liste
+4. Neste refresh:
+- kjøpet reklassifiseres rødt → grønt
+- avvik og KPIer oppdateres
+
+### 5.2 Forhindring av duplikater
+
+Override-listen er én rad per organisasjonsnummer.
+
+Appen:
+- sjekker om rad finnes → oppdaterer den
+- hvis ikke → oppretter ny rad
+- viser popup ved forsøk på duplikat
+
+Se logikk:
+/docs/powerapps-override-logic.md
+
+## 6. Egendefinerte visualiseringer
+### 6.1 Deneb SVG Tooltip
+- 3 års historikk for valgt leverandør
+- gule stolper = over terskelverdi (f.eks. 100k/125k)
+- stiplet linje for terskel
+- kompakt, rask innsikt
+
+DAX:
+/examples/deneb-measures.md
+
+### 6.2 Flow / Sankey
+
+- viser hvordan kostnader flyter gjennom kontostruktur
+- nyttig for å forstå hvor kjøp «lander» i regnskapet
+
