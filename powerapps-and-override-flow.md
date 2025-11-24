@@ -8,37 +8,49 @@ This workflow ensures that non-compliant spend is not over-reported, and that le
 ---
 
 ## 1. Purpose
+When a purchase is classified as not covered by an agreement, users can open the embedded Power App directly from the report and register a justification. The app collects:
 
-Users can register a justified exception (e.g., documented reason, classification, start/stop date).
-When the Power App writes this information to the override list (Kollektiv hukommelse), the report will, upon refresh:
+- Reason/category
+- Notes or descriptive context
+- Start/end date for the exception
+- Responsible purchaser
+- Timestamp of registration
 
-- Convert the transaction from red → green
-- Treat it as a documented exception
-- Ensure that agreement coverage metrics remain realistic and fair
+The entry is written to an override list (SharePoint / Teams list or Dataverse).
+During the next data refresh, Power BI:
 
-This avoids punishing legitimate purchases that fall outside contract scope for valid reasons.
+- matches the override back to the supplier (based on OrganizationNumber)
+- reclassifies the purchase from red → green
+- updates KPIs, compliance visuals, exception lists and flow diagrams
+
+This creates a transparent and fair representation of procurement compliance.
 
 ---
 ## 2. Preventing Duplicate Overrides (Key Integrity)
 
-The matching key between the ERP dataset and the override list is (for most organizations) OrganizationNumber.
+The override list uses OrganizationNumber as the key that links overrides to suppliers in the data model.
+In most public-sector or ERP setups, this is the only consistent identifier across systems.
 
-Because this key is many-to-one (one supplier → one override entry), multiple overrides for the same organization number would:
+Because the key is many-to-one (one supplier → one override record), creating multiple overrides for the same supplier would:
+
 - break referential integrity
-- cause model relationship conflicts
-- and potentially crash visuals relying on unambiguous lookups
+- produce ambiguous lookups
+- cause relationship errors in the model
+- and risk breaking visuals that expect a single match
 
-To prevent this, the Power App includes logic that checks whether an entry already exists before writing.
+To prevent this, the Power App includes a validation step before writing.
 
-If an override already exists, a Power Apps popup warning appears, preventing accidental duplication. 
-Dette kan fint spores tilbake i refresh-log i fabric - men er en fin ting å unngå. 
+If an entry for the supplier already exists, the app:
+- Updates the existing record
+- Does not create a duplicate
 
+Users are also shown a popup warning to understand why they are prevented from submitting.
 
 ## 2.1 Popup Logic (Power Apps)
 Below is the exact OnSelect logic from the submit button.
 It checks for an existing entry, updates it if present, or creates a new one if not.
 
-Datacard 9-10 is obviously arbetrary - and just reflects 
+The actual names of the input controls (datacard 9-16) are arbitrary and depend on your form.
 
 **FX / Power APP**
 ```
@@ -88,63 +100,54 @@ To ensure clean data entry, the Power App also displays a notification popup whe
 
 This ensures that analysts and approvers always have a clear, singular override record per supplier.
 
-As shown in norwegian below: "PS! This org.number already exists, and can be overwritten" 
+As shown in norwegian below: "Note! This org.number already exists, and can be overwritten" 
 
 ![ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/908b7e80-c37b-4e90-bd61-69f4472420d0)
 
 
 ## 5. Access Requirements
 
-All report users who interact with the embedded Power App must:
+All users who interact with the embedded Power App must have the same access as the app creator, including:
 
-1. Have access to the Power Apps environment where the app is created
-2. Have at least read/write access to the SharePoint or Dataverse list storing override data
-3. Have access to the Power BI dataset (otherwise the embedded app will fail to load)
+- Power Apps environment (read/write)
+- SharePoint/Teams list where overrides are stored
+- Power BI dataset access
 
-Without aligned permissions, the Power App appears but does not save changes.
-Process Flow
----
-## 6. Effect in the Report
-When an override exists:
+If permissions differ, the app might load visually but will not save changes.
 
-- The purchase changes from non-compliant → documented exception
-- KPIs adjust accordingly
-- Red/green classification updates
-- Multiple visuals (including Sankey, Uncovered Purchases, and Agreement Coverage) are updated
+## 6. Optional: Manual Override Page in Teams
 
-This makes the override flow a key part of presenting a fair, contextual and organization-aware view of procurement compliance.
+If the override list is stored in a Teams-based SharePoint list, it is recommended to:
 
----
-1. A purchase is identified as outside an agreement  
-2. User opens the embedded Power App  
-3. User provides justification:  
-   - Reason  
-   - Category  
-   - Notes  
-4. The app stores the override entry in a SharePoint list / Dataverse  
-5. Power BI refresh picks up overrides and updates logic:  
-   - Red → Green if approved  
-   - Contract matching logic remains intact  
----
+- expose the list as a tab in Teams
+- grant appropriate edit permissions
 
-## 3. How Overrides Affect the Report
+This provides a manual fallback option if:
 
-Overrides update:
-- AgreementFlag logic  
-- Compliance visuals  
-- KPIs for covered vs. uncovered spend  
-- Exception lists  
-- Sankey/Flow views  
+- a user makes an incorrect entry
+- an override must be edited outside the Power App
+- troubleshooting or cleanup is required
 
-Users instantly understand:
-- True non-compliance  
-- Documented and accepted deviations  
-- Patterns that require procurement follow-up  
+This also supports auditability and transparency.
 
----
+## 7. Effect in the Report
 
-## 4. Related Documentation
+Overrides impact:
 
-- Agreement logic and DAX: `/examples/Dax-Dictionary.md`  
-- Data model structure: `/examples/data-model-and-dax.md`  
-- Deneb SVG tooltip visuals: `/examples/deneb-measures.md`  
+- AgreementFlag logic
+- Compliance KPIs
+- Deviation vs. accepted exception logic
+- Sankey/flow diagrams
+- Uncovered purchases table
+- Contract consumption and coverage pages
+
+As a result, users can easily distinguish between:
+
+- True non-compliance (red)
+- Approved/documented exceptions (green)
+- Ambiguous cases (multiple contract matches + warning icon)
+
+## 8. Related DocumentationWhen an override exists:
+- DAX reference: /examples/Dax-Dictionary.md
+- Data model design: /docs/data-model-and-dax.md
+- Deneb visuals: /examples/deneb-measures.md
