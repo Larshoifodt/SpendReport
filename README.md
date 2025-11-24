@@ -6,6 +6,9 @@ This Power BI report provides a comprehensive overview of how the organizationâ€
 4. Data Sources and Logic
 
 The data model includes DAX logic to match invoices and contracts based on supplier and date ranges, with explicit handling of cases where multiple contracts exist for the same supplier in the same period. See docs/data-model-and-dax.md for details.
+
+![ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/477370d0-2062-40b2-aeb4-138e4c764069)
+
    
 # Bridge Table Between Contract Register and ERP
 In many organizations, contracts (framework agreements) are stored in one system, 
