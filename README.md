@@ -1,5 +1,7 @@
 # Spend Report – Framework Agreement Compliance & Spend Analysis (Power BI)
 
+[Les på norsk](README.no.md)
+
 The Spend Report Project is a Power BI solution that connects contract data (framework agreements) with ERP invoice data to show:
 
 - how much of the organization’s spend is actually covered by agreements  
