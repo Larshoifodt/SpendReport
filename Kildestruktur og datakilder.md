@@ -150,8 +150,21 @@ For stabil drift anbefales følgende rutiner:
 - Fabric gir gode kræsj-rapporter. I de fleste tilfeller er det feil i nøkkelvariabel i en av kildene, blank eller dublikat. Les feilmelding på oppdatering i fabric nøye - gir ofte god indikasjon på hva som har gått galt.
 - Ved duplikater eller blanke felt i nøkkelvariabel for beskrivelse/kollektiv hukommelse. Gå inn i fanen i teams og slett raden.
 
-- LEGG INN BILDER HER 
-
+**Eksempel på feilmelding**
+```
+Datakildefeil:	Column '<oii>Organisasjonsnummer</oii>' in Table '<oii>Kollektiv_hukommelse</oii>' contains blank values and this is not allowed for columns on the one side of a many-to-one relationship or for columns that are used as the primary key of a table. (Organisasjonsnummer (16634)).
+Klynge-URI:	WABI-NORTH-EUROPE-O-PRIMARY-redirect.analysis.windows.net
+Aktivitets-ID:	f908d504-9fff-4080-af46-05f753c1ccaf
+Forespørsels-ID:	815aea6c-c0e4-47bb-acaf-692ee65fe5df
+Klokkeslett:	2025-10-20 00:30:01Z
+Detaljer	
+#	Type	Start	Slutt	Varighet	Status	Detaljer
+1	Data	20.10.2025, 02:01:02	20.10.2025, 02:21:41	20 m 39 s	Mislyktes	(Vis)
+2	Data	20.10.2025, 02:21:41	20.10.2025, 02:21:46	4s	Mislyktes	(Vis)
+3	Data	20.10.2025, 02:22:46	20.10.2025, 02:22:51	5s	Mislyktes	(Vis)
+4	Data	20.10.2025, 02:24:51	20.10.2025, 02:24:57	5s	Mislyktes	(Vis)
+5	Data	20.10.2025, 02:29:57	20.10.2025, 02:30:01	4s	Mislyktes	(Vis)
+```
 
 --- 
 ## 5. Oppsummering
