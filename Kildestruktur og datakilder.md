@@ -106,7 +106,7 @@ Dette kan justeres etter behov.
 ### 3.2 Manuell oppdatering
 Hvis man trenger umiddelbar oppdatering:
 
-- gå til datasetets semantiske modell i Fabric, LENKE! 
+- gå til datasetets semantiske modell i [Fabric](https://app.powerbi.com/groups/b73bdcb0-32f4-407a-b6bf-de3dcecbbd29/lineage?tenant=bc758dd0-ab53-4372-9a7c-e98a9620862c&experience=power-bi).
 - trykk “Oppdater nå”.
 
 Dette kan brukes hvis man ikke vil vente til automatisk oppdatering. 
