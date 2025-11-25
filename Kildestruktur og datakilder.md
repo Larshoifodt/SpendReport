@@ -1,9 +1,11 @@
 # Kildestruktur og datakilder
 
 ## Kildestruktur og Datakilder
+
 Denne oversikten beskriver hvordan datakildene i SpendReport-løsningen er organisert, 
 vedlikeholdes og lastes inn i Power BI-modellen. Dokumentet er laget for analytikere, 
 innkjøpere og forvaltere som skal forstå hvordan rapporten fungerer i praksis, samt hvilke rutiner som kreves for stabil drift.
+
 ---
 ## 1. Hovedkilder i løsningen
 Løsningen bygger på fem sentrale kilder som alle ligger i et felles Teams-område (SharePoint-bibliotek). Disse blir automatisk hentet av Power BI gjennom planlagte oppdateringer.
@@ -70,40 +72,40 @@ Dette sikrer korrekt filtrering og fordeling i rapporten.
 --- 
 ## 2. Mappe- og filstruktur
 
-En typisk Teams-mappestruktur:
+Følgende kilder må vedlikeholdes. 
 
+Teams-mappestruktur:
 ```
 /Datagrunnlag
-    ├─ ERP/
-    │    └─ InvoiceExport.xlsx
-    ├─ Kontrakter/
-    │    └─ ContractExport.xlsx
-    ├─ Innkjoper/
-    │    └─ Innkjoper.xlsx
-    ├─ KollektivHukommelse/   (MS Lists – håndteres automatisk)
-    └─ Beskrivelser/          (MS Lists – håndteres automatisk)
+    ├─ Unit4/
+    │    └─ Spend-Export 202201-202502.xlsx
+    ├─ Tendsign/
+    │    └─ Tendsign.xlsx
+    └─ Innkjøper/
+         └─ Innkjoper.xlsx
 ```
-Alle queries er bygget slik at de kun refererer mappen, ikke filnavnet.
-Så lenge en fil erstattes i samme mappe, fortsetter modellen å fungere uten manuelle endringer.
+Teams / Sharepoint-område LENKE! 
+KollektivHukommelse/   (MS Lists – håndteres automatisk)
+Beskrivelser/          (MS Lists – håndteres automatisk)
+
+Queries er bygget slik at de refererer filnavnet og arkfanen i excel, ikke kun mappen. Det er derfor lurt å oppdatere
+innholdet fremfor å erstatte filen. Dette kan imidlertid endres i M-koden i power query. 
 
 --- 
 ## 3. Lasting og oppdatering i Power BI / Fabric
 
 ### 3.1 Automatiske oppdateringer
 
-Datasettene er satt til å oppdatere daglig kl. 08:00 i Fabric.
+Datasettene er satt til å oppdatere daglig kl. 08:00 i Fabric. Lenke
 Dette kan justeres etter behov.
 
 ### 3.2 Manuell oppdatering
-Hvis du trenger umiddelbar oppdatering:
+Hvis man trenger umiddelbar oppdatering:
 
-- gå til datasetet i Fabric, LENKE! 
+- gå til datasetets semantiske modell i Fabric, LENKE! 
 - trykk “Oppdater nå”.
 
-Dette brukes hvis:
-- nye unntak er lagt inn i MS Lists,
-- man har lastet inn nye ERP- eller kontraktsfiler,
-- man tester endringer eller feilsøker.
+Dette kan brukes hvis man ikke vil vente til automatisk oppdatering. 
 
 ### 3.3 Begrensninger pga. lisens
 
@@ -111,7 +113,7 @@ Prosjektet kjører på en lisens som:
 - ikke støtter hendelsesbasert refresh,
 - ikke oppdaterer automatisk når filer endres.
 
-Derfor er daglig oppdatering + manuell refresh den rette løsningen.
+Derfor er daglig oppdatering + manuell refresh eneste løsning.
 
 --- 
 ## 4. Datakvalitet og rutiner
@@ -120,17 +122,35 @@ For stabil drift anbefales følgende rutiner:
 
 ### 4.1 Månedlig
 
-- Last ned og erstatt ERP-filen.
-- Last ned og erstatt kontraktsfilen.
-- Sjekk om nye budenhetsnumre finnes i ERP-data → oppdater Innkjøper-filen.
+<img width="1965" height="417" alt="image" src="https://github.com/user-attachments/assets/744638dc-05f3-47aa-a821-5b4689b7331f" />
+
+
+- Last ned de 2 siste månedene med ERP-data når regnskapet er klart.
+- Nedlastingen gjøres fra Unit4  → SPEND-EKSPORT. Det kan være hensiktsmessig å hente ut 2 måneder med data. Forrige måned - og måneden før det (i tilfelle det er gjort korregeringer siden sist).
+- <img width="1965" height="417" alt="image" src="https://github.com/user-attachments/assets/744638dc-05f3-47aa-a821-5b4689b7331f" />
+
+- Åpne Excel-filen Spend-Export 202201-202502 (som ligger i Teams Spend 25. Filtrer på periode og slett siste måned (delete rows) og legg til de to nye månedene. Sørg for at filen er oppdatert og lagret. 
+    - Dersom man endrer navn på filen eller arkfanen - må man endre M-koden i power Query - hvis ikke vil framtidige oppdaringeringer kræsje.         
+    - Marker og bruk hurtigstastene ctrl + pil og "ctrl + Alt + Home" for raskere navigering. 
+
+ (Kapasitetsmessig kan rapporten få inn årevis med fakturadata - legg inn antall år du ønsker - rundt 2 år kan være hensiktsmessig) 
+
+- Etter oppdatering av rapport - gå inn på rapportens fane "Vedlikehold" - Sjekk om nye budenhetsnumre finnes i ERP-data → oppdater Innkjøper-filen. Samme prinsipp - ikke endre navn på fil, arkfane eller filens lokasjon.  
 
 ### 4.2 Løpende
 
 - Registrer unntak via Power App når et kjøp står som rødt.
-- Legg inn nye leverandørbeskrivelser i MS Lists ved behov.
+- Legg inn nye leverandørbeskrivelser i MS Lists ved behov. Fint sted for å lage huskelapp til oppfølging. 
 
 ### 4.3 Etter behov
--Manuell Refresh i Fabric ved oppdateringer i lister eller filer.
+- Manuell Refresh i Fabric ved oppdateringer for å se endringen.
+
+### 4.3 Kræsj-rapport 
+- Fabric gir gode kræsj-rapporter. I de fleste tilfeller er det feil i nøkkelvariabel i en av kildene, blank eller dublikat. Les feilmelding på oppdatering i fabric nøye - gir ofte god indikasjon på hva som har gått galt.
+- Ved duplikater eller blanke felt i nøkkelvariabel for beskrivelse/kollektiv hukommelse. Gå inn i fanen i teams og slett raden.
+
+- LEGG INN BILDER HER 
+
 
 --- 
 ## 5. Oppsummering
