@@ -43,3 +43,111 @@ En SharePoint / Teams-liste som brukes til å registrere:
 Når en bruker registrerer et unntak via Power App-en:
 - blir posten skrevet hit,
 - modellen klassifiserer kjøpet fra rødt → grønt ved neste refresh.
+
+### 1.4 Beskrivelser (MS Lists)
+
+En enkel liste for å lagre:
+- fritekstforklaringer,
+- leverandørbeskrivelser,
+- ekstra kontekst som ikke eksisterer i ERP-dataene.
+
+Denne informasjonen kobles inn via organisasjonsnummer og vises i tabeller og tooltips.
+
+### 1.5 Innkjøper-fil (Teams → DATAGRUNNLAG-mappen)
+En Excel-fil som kobler 4-sifret budenhetsnummer til:
+
+- ansvarlig innkjøper,
+- organisasjonstilgang,
+- eventuelle grupperinger.
+
+Når et nytt budenhetsnummer opptrer i ERP-dataene:
+1. brukeren slår det opp i Unit4,
+2. finner tilhørende enhet,
+3. legger det inn i denne filen.
+
+Dette sikrer korrekt filtrering og fordeling i rapporten.
+
+--- 
+## 2. Mappe- og filstruktur
+
+En typisk Teams-mappestruktur:
+
+```
+/Datagrunnlag
+    ├─ ERP/
+    │    └─ InvoiceExport.xlsx
+    ├─ Kontrakter/
+    │    └─ ContractExport.xlsx
+    ├─ Innkjoper/
+    │    └─ Innkjoper.xlsx
+    ├─ KollektivHukommelse/   (MS Lists – håndteres automatisk)
+    └─ Beskrivelser/          (MS Lists – håndteres automatisk)
+```
+Alle queries er bygget slik at de kun refererer mappen, ikke filnavnet.
+Så lenge en fil erstattes i samme mappe, fortsetter modellen å fungere uten manuelle endringer.
+
+--- 
+## 3. Lasting og oppdatering i Power BI / Fabric
+
+### 3.1 Automatiske oppdateringer
+
+Datasettene er satt til å oppdatere daglig kl. 08:00 i Fabric.
+Dette kan justeres etter behov.
+
+### 3.2 Manuell oppdatering
+Hvis du trenger umiddelbar oppdatering:
+
+- gå til datasetet i Fabric, LENKE! 
+- trykk “Oppdater nå”.
+
+Dette brukes hvis:
+- nye unntak er lagt inn i MS Lists,
+- man har lastet inn nye ERP- eller kontraktsfiler,
+- man tester endringer eller feilsøker.
+
+### 3.3 Begrensninger pga. lisens
+
+Prosjektet kjører på en lisens som:
+- ikke støtter hendelsesbasert refresh,
+- ikke oppdaterer automatisk når filer endres.
+
+Derfor er daglig oppdatering + manuell refresh den rette løsningen.
+
+--- 
+## 4. Datakvalitet og rutiner
+
+For stabil drift anbefales følgende rutiner:
+
+### 4.1 Månedlig
+
+- Last ned og erstatt ERP-filen.
+- Last ned og erstatt kontraktsfilen.
+- Sjekk om nye budenhetsnumre finnes i ERP-data → oppdater Innkjøper-filen.
+
+### 4.2 Løpende
+
+- Registrer unntak via Power App når et kjøp står som rødt.
+- Legg inn nye leverandørbeskrivelser i MS Lists ved behov.
+
+### 4.3 Etter behov
+-Manuell Refresh i Fabric ved oppdateringer i lister eller filer.
+
+--- 
+## 5. Oppsummering
+
+Løsningen er bygget for å fungere i miljøer uten en fullintegrert innkjøpsplattform.
+Derfor ligger all lagring i:
+
+- Teams / SharePoint (filer + MS Lists)
+- Power BI / Fabric (modell, refresh, visualiseringer)
+- Power Apps (unntaksbehandling)
+
+Når kildene vedlikeholdes etter rutinene ovenfor, leverer rapporten:
+
+- stabile oppdateringer
+- korrekt klassifisering
+- gode analyser av avtaledekning
+- ingen schema drift-problemer
+- korrekt innkjøperfordeling
+
+--- 
