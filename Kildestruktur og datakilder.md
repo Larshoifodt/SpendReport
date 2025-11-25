@@ -74,8 +74,10 @@ Dette sikrer korrekt filtrering og fordeling i rapporten.
 
 Følgende kilder må vedlikeholdes. 
 
-Teams-mappestruktur:
+
 ```
+Teams-mappestruktur:
+
 /Datagrunnlag
     ├─ Unit4/
     │    └─ Spend-Export 202201-202502.xlsx
@@ -84,9 +86,11 @@ Teams-mappestruktur:
     └─ Innkjøper/
          └─ Innkjoper.xlsx
 
-Teams / Sharepoint-område LENKE! 
+Teams / Sharepoint-område:
+
 KollektivHukommelse/   (MS Lists – håndteres automatisk)
 Beskrivelser/          (MS Lists – håndteres automatisk)
+
 ```
 Queries er bygget slik at de refererer filnavnet og arkfanen i excel, ikke kun mappen. Det er derfor lurt å oppdatere
 innholdet fremfor å erstatte filen. Dette kan imidlertid endres i M-koden i power query. 
@@ -96,7 +100,7 @@ innholdet fremfor å erstatte filen. Dette kan imidlertid endres i M-koden i pow
 
 ### 3.1 Automatiske oppdateringer
 
-Datasettene er satt til å oppdatere daglig kl. 08:00 i Fabric. Lenke
+Datasettene er satt til å oppdatere daglig kl. 08:00 i [Fabric](https://app.powerbi.com/groups/b73bdcb0-32f4-407a-b6bf-de3dcecbbd29/lineage?tenant=bc758dd0-ab53-4372-9a7c-e98a9620862c&experience=power-bi).
 Dette kan justeres etter behov.
 
 ### 3.2 Manuell oppdatering
