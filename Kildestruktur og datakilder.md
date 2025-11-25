@@ -83,11 +83,11 @@ Teams-mappestruktur:
     │    └─ Tendsign.xlsx
     └─ Innkjøper/
          └─ Innkjoper.xlsx
-```
+
 Teams / Sharepoint-område LENKE! 
 KollektivHukommelse/   (MS Lists – håndteres automatisk)
 Beskrivelser/          (MS Lists – håndteres automatisk)
-
+```
 Queries er bygget slik at de refererer filnavnet og arkfanen i excel, ikke kun mappen. Det er derfor lurt å oppdatere
 innholdet fremfor å erstatte filen. Dette kan imidlertid endres i M-koden i power query. 
 
@@ -121,9 +121,6 @@ Derfor er daglig oppdatering + manuell refresh eneste løsning.
 For stabil drift anbefales følgende rutiner:
 
 ### 4.1 Månedlig
-
-<img width="1965" height="417" alt="image" src="https://github.com/user-attachments/assets/744638dc-05f3-47aa-a821-5b4689b7331f" />
-
 
 - Last ned de 2 siste månedene med ERP-data når regnskapet er klart.
 - Nedlastingen gjøres fra Unit4  → SPEND-EKSPORT. Det kan være hensiktsmessig å hente ut 2 måneder med data. Forrige måned - og måneden før det (i tilfelle det er gjort korregeringer siden sist).
