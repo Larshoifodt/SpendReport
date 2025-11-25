@@ -15,8 +15,8 @@ Løsningen bygger på fem sentrale kilder som alle ligger i et felles Teams-omr�
 |----------|-----------|-----------|-----------|
 | ERP (Unit4) | Fakturaeksport | Teams → DATAGRUNNLAG → UNIT4 | Månedlig (manuell opplasting, erstatt eksisterende fil) | 
 | Avtaler (Tendsign) | Tendsign-eksport  | Teams → DATAGRUNNLAG → Tendsign | Månedlig (erstatt eksisterende fil) |
-| Override (Kollektiv hukommelse) | MS List (Kollektiv hukommelse) | (Fane) Teams Spend 25 / Område | Kontinuerlig via Power App eller direkte via MS List | 
-| Leverandørbeskrivelser | MS List (Beskrivelser)  | (Fane) Teams Spend 25 / Område | Kontinuerlig via Power App eller direkte via MS List |
+| Override (Kollektiv hukommelse) | MS List (Kollektiv hukommelse) | (Fane) Teams Spend 25 / Sharepoint-område | Kontinuerlig via Power App eller direkte via MS List | 
+| Leverandørbeskrivelser | MS List (Beskrivelser)  | (Fane) Teams Spend 25 / Sharepoint-område | Kontinuerlig via Power App eller direkte via MS List |
 | Innkjøper/Ansvarsområder | Excel-fil “INNKJOPER.xlsx”  | Teams → DATAGRUNNLAG | Ved behov (sjekk vedlikeholdsfane i rapport - antall nye budenheter >0?) |
 
 ## 2. Rutiner for hver kilde
