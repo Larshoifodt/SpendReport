@@ -163,12 +163,4 @@ Derfor ligger all lagring i:
 - Power BI / Fabric (modell, refresh, visualiseringer)
 - Power Apps (unntaksbehandling)
 
-Når kildene vedlikeholdes etter rutinene ovenfor, leverer rapporten:
-
-- stabile oppdateringer
-- korrekt klassifisering
-- gode analyser av avtaledekning
-- ingen schema drift-problemer
-- korrekt innkjøperfordeling
-
 --- 
